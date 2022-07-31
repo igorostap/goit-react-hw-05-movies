@@ -7,6 +7,13 @@ import toastr from "toastr";
 
 import { useForm } from 'react-hook-form';
 
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-top-left",
+    "timeOut": "3000",
+    "extendedTimeOut": "1000",
+}
+
 
 export  function Movies() {
   const [movies, setMovies] = useState();
