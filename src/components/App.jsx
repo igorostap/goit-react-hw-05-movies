@@ -1,65 +1,31 @@
-import axios from 'axios';
-import {  Route, Routes} from 'react-router-dom';
-import { HomeView } from '../vievs/HomeView'
-import HomePage from './HomePage';
-import { Movies } from '../vievs/Movies'
-import { NotFoundView } from 'vievs/NotFoundView';
-import { MovieDetailsPage } from './MovieDetailsPage/MovieDetailsPage'
-import { MovieCast } from './Cast/Cast'
-import {MovieReviews} from './Reviews/Reviews'
+import { Route, Routes } from 'react-router-dom';
 
-axios.defaults.baseURL = 'https://api.themoviedb.org/3';
+import { lazy, Suspense } from 'react';
 
-export async function fetchAuthors() {
-  const response = await axios.get('/trending/all/day?api_key=3e74a828484d6b0f83071233fd134bba');
-  
-  return response.data;
-}
-
-
+const HomeView = lazy(() => import('../vievs/HomeView'));
+const HomePage = lazy(() => import('./HomePage'));
+const Movies = lazy(() => import('../vievs/Movies'));
+const MovieDetailsPage = lazy(() => import('./MovieDetailsPage/MovieDetailsPage'));
+const NotFoundView = lazy(() => import('vievs/NotFoundView'));
+const MovieCast = lazy(() => import('./Cast/Cast'));
+const MovieReviews = lazy(() => import('./Reviews/Reviews'));
 export function App() {
-  
   return (
-    
+    <div>
+      <Suspense>
+        <Routes>
+          <Route path="/" element={<HomePage />}>
+            <Route index element={<HomeView />} />
+            <Route path="movies" element={<Movies />} />
 
-      <Routes>
-        <Route path="/" element={<HomePage />} >
-          <Route index element={<HomeView />} />
-          <Route path="movies" element={<Movies />} />
-          <Route path="movies/:movieId" element={<MovieDetailsPage />} >
-            <Route path="cast" element={<MovieCast />} />
-            <Route path="reviews" element={<MovieReviews /> }/>
-          </Route>  
-        </Route>
-        <Route path="*" element={<NotFoundView/>}></Route>  
-      </Routes>
-     
-    
-    
-        
-    );
-  };
- 
-  
-  /* <Route path='*' element={<NotFoundView />} />
-  <Routes>
-        <Route path='/' element={<HomePage />} >
-          <Route index element={<HomeView />} />
-         
-          <Route path='/movies' element={<Movies />}/>
-        <Route path="movies/:movieId" element={<MovieDetailsPage />} >
-          <Route path='cast' element={<MovieCast />}>
-           <Route path='reviews' element={<MovieReviews/>}>
-        
+            <Route path="movies/:movieId" element={<MovieDetailsPage />}>
+              <Route path="cast" element={<MovieCast />} />
+              <Route path="reviews" element={<MovieReviews />} />
+            </Route>
           </Route>
-          </Route>
-         </Route> 
-          <Route path='*' element={<NotFoundView />} />
-       
-          
-      </Routes>
-
-      
-  */
-
-
+          <Route path="*" element={<NotFoundView />}></Route>
+        </Routes>
+      </Suspense>
+    </div>
+  );
+}

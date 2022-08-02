@@ -1,6 +1,6 @@
 
 import{Link}from 'react-router-dom';
-export const NotFoundView = () => {
+export default function NotFoundView () {
     return (
         <Link to='/'>Go Home</Link>
     )
