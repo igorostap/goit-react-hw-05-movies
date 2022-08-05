@@ -15,10 +15,14 @@ export default function MovieDetailsPage() {
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  
   useEffect(() => {
+     const onGoBack = () => {
+    navigate(location?.state?.from ?? '/');
+  };
     fetchMovieById(params.movieId).then(setMovie).catch(error=>{onGoBack()});
-  }, [params.movieId]);
-  const onGoBack = () => {
+  }, [location?.state?.from, navigate, params.movieId]);
+ const onGoBack = () => {
     navigate(location?.state?.from ?? '/');
   };
   return (
