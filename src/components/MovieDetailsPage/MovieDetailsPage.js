@@ -9,13 +9,14 @@ import {
 } from 'react-router-dom';
 import { Container, ContainerInfo } from './MovieDetails.styled';
 
+
 export default function MovieDetailsPage() {
   const [movies, setMovie] = useState([]);
   const params = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    fetchMovieById(params.movieId).then(setMovie);
+    fetchMovieById(params.movieId).then(setMovie).catch(error=>{onGoBack()});
   }, [params.movieId]);
   const onGoBack = () => {
     navigate(location?.state?.from ?? '/');
@@ -47,9 +48,9 @@ export default function MovieDetailsPage() {
           </Container>
           <hr />
           <h3>AdditionalInfo</h3>
-          <NavLink to="cast">Cast</NavLink>
+          <NavLink to="cast" state={location.state}>Cast</NavLink>
           <br />
-          <NavLink to="reviews">Reviews</NavLink>
+          <NavLink to="reviews" state={location.state}>Reviews</NavLink>
           <hr />
           <Outlet />
         </>

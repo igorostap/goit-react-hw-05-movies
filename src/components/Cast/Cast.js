@@ -7,12 +7,13 @@ export default function MovieCast() {
   const [cast, setCast] = useState([]);
   const { movieId } = useParams();
   useEffect(() => {
-    fetchMovieCast(movieId).then(setCast);
+    fetchMovieCast(movieId).then(setCast).catch(error=>error.message);
   }, [movieId]);
-  console.log(cast);
   return (
     <CastList>
+      
       {cast &&
+        
         cast.map(el => (
           <ActorCard key={el.id}>
             {el.profile_path ? (

@@ -1,6 +1,8 @@
 import axios from 'axios';
+
 axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 const API_KEY = '3e74a828484d6b0f83071233fd134bba'
+
 
 export async function fetchTrendingMovies() {
    const response = await axios.get(`/trending/movie/day?api_key=${API_KEY}`).catch(err => err.message);
@@ -8,7 +10,7 @@ export async function fetchTrendingMovies() {
 }
 
 export async function fetchMovieById(movieId) {
-  const response = await axios.get(`/movie/${movieId}?api_key=${API_KEY}`).catch(err => err.message);
+  const response = await axios.get(`/movie/${movieId}?api_key=${API_KEY}`).catch(err => alert('No results'));
   return response.data;
 }
 
